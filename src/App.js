@@ -7,6 +7,7 @@ function App() {
   const [panelHeightAfterDrag, setPanelHeightAfterDrag] = useState(200)
   const [isDragging, setIsDragging] = useState(false)
   const [initialPos, setInitialPos] = useState(0.0)
+  const [containerHeight, setContainerHeight] = useState(150)
   const [touchStart, setTouchStart] = useState(null)
   const [touchEnd, setTouchEnd] = useState(null)
   const [startTime, setStartTime] = useState(0)
@@ -35,7 +36,10 @@ function App() {
     if (isDragging) {
       const delta = initialPos - event.targetTouches[0].clientY
       let height = panelHeightAfterDrag + delta
-      setPanelHeight(height)
+      if (height <= (document.documentElement.clientHeight - (.2 * document.documentElement.clientHeight))) {
+        setPanelHeight(height)
+        setContainerHeight(height - 60)
+      }
       console.error("clientY", event.targetTouches[0].clientY)
       console.error("delta", delta)
       console.error("height", height)
@@ -101,13 +105,23 @@ function App() {
   //   };
   // }, [isDragging]);
 
+  const getList = () => {
+    return [...Array(100).keys()]
+  }
+
   return (
     <div>
       <h1>ReactJS Resizable Panels</h1>
-      <div id="footer" className="footer">
+      <div id="footer" className="footer" style={{ height: panelHeight }}>
         {/* <div onMouseDown={startResize} ><img src={logo} style={{ height: '40px', width: '40px', display: 'block', margin: 'auto', pointerEvents: 'none' }} /></div> */}
         <div onTouchStart={startResize} onTouchMove={resizePanel} onTouchEnd={stopResize} ><img src={logo} style={{ height: '40px', width: '40px', display: 'block', margin: 'auto', pointerEvents: 'none' }} /></div>
-        <div style={{ height: panelHeight }}>This is the first panel. It will use the rest of the available space.</div>
+        <div style={{ margin: '0 20px', paddingBottom:'20px', overflowY: 'auto', maxHeight: containerHeight }}>
+          {
+            getList().map(it => {
+              return <li>{it}</li>
+            })
+          }
+        </div>
       </div>
     </div>
   );
