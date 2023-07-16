@@ -1,17 +1,22 @@
 @import url('https://fonts.googleapis.com/css?family=Ubuntu');
 
 html {
-  background: #333;
+  background: #ddd;
   font-family: sans-serif;
 }
 
+body {
+  background-color: #ddd;
+}
+
 h1 {
-  color: white;
+  color: #666;
 }
 
 .footer {
   position: fixed;
   bottom: 0;
   width: 100%;
-  background-color: aliceblue;
+  background-color: #fff;
+  border-radius: 15px 15px 0 0;
 }
